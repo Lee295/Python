@@ -47,7 +47,7 @@ class BaikeAndImg:
             f.writelines('\n\n')    # 两次换行
         f.close()   # 关闭文档
 
-     # 创建爬取图片的函数
+    # 创建爬取图片的函数
     def medicine_img(content):
         last_dir = "E:/Python/Medicine/IMG/"    # 创建IMG文件夹
         dir = "E:/Python/Medicine/IMG/" + content   # 在IMG文件夹下，创建以关键词content命名的文件夹，用于保存爬取的图片
