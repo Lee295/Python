@@ -1,0 +1,4 @@
+http或者https是访问资源需要的协议。除此之外的协议类型：ftp、sftp、smb
+
+1、HTTP的全称为Hype Text Transfer Protocol，中文名为超文本传输协议。
+HTTP协议是用于网络传输超文本数据到本地浏览器的传送协议，能保证高效而准确得传送超文本文档
