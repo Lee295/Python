@@ -1,3 +1,9 @@
+'''
+输入关键词
+爬取百度百科第一段的简介
+爬取百度图片前三十张图片
+'''
+
 import threading
 import urllib.request
 from urllib.parse import quote
