@@ -13,9 +13,9 @@ import os
 from lxml import etree
 
 
-class Medicine:
+class BaikeAndImg:
     global headers  # 定义全局变量headers
-    # headers 浏览器标识
+    # 字典headers 浏览器标识
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) "
                       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36",
@@ -44,7 +44,7 @@ class Medicine:
         with open('Medicine.txt', 'a', encoding='utf-8') as f:
             f.write(content + '\n') # 写入关键词，并换行
             f.writelines(result)    # 写入爬取的结果
-            f.writelines('\n\n')    # 换行
+            f.writelines('\n\n')    # 两次换行
         f.close()   # 关闭文档
 
      # 创建爬取图片的函数
@@ -64,13 +64,24 @@ class Medicine:
             else:                       # 若不存在，创建content文件夹，并输出提示
                 os.mkdir(dir)
                 print(dir + "已经创建成功")
+                
         keyword1 = quote(content, encoding="utf-8") # 将关键词content传入keyword1，URL编码为 utf-8
+        
         '''
-            拆分百度图片网址
-            前半段"http://image.baidu.com/search/index?tn=baiduimage&ps=1&ct=201326592&lm=-1&cl=2&nc=1&ie=utf-8&word="
-            是，利用百度图片搜索时的通用地址， keyword1是quote函数传入的关键词content
-        '''q
+        拆分百度图片网址
+        前半段"http://image.baidu.com/search/index?tn=baiduimage&ps=1&ct=201326592&lm=-1&cl=2&nc=1&ie=utf-8&word="
+        是，利用百度图片搜索时的通用地址， keyword1是quote函数传入的关键词content
+        '''
         url = "http://image.baidu.com/search/index?tn=baiduimage&ps=1&ct=201326592&lm=-1&cl=2&nc=1&ie=utf-8&word=" + keyword1
+        
+        '''
+        url.request模块提供了最基本的构造HTTP请求的方法，利用它可以模拟成浏览器的一个请求发送过程
+        
+        利用Request()方法构造一个发送请求。Request()参数包括，url(请求网址，必传参数)，headers请求头
+        利用urlopen()方法，实现网页的GET请求抓取
+        利用read()方法得到返回的网页内容
+        decode()方法规定编码格式为utf-8
+        '''
         req = urllib.request.Request(url, headers=headers)
         f = urllib.request.urlopen(req).read().decode("utf-8")
         key = r'thumbURL":"(.+?)"'
