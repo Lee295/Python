@@ -14,13 +14,15 @@ from lxml import etree
 
 
 class Medicine:
-    global headers
+    global headers  # 定义全局变量headers
+    # headers 浏览器标识
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) "
                       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36",
         "referer": "https://image.baidu.com"
     }
 
+    # 创建函数，用于爬取百度百科相关
     def medicine_introduction(content):
         # 请求地址
         url = 'https://baike.baidu.com/item/' + urllib.parse.quote(content)
@@ -38,29 +40,36 @@ class Medicine:
         sen_list_after_filter = [item.strip('\n') for item in sen_list]
         # 将字符串列表连成字符串并返回
         result = ''.join(sen_list_after_filter)
+        # 创建文本文档并打开，保存爬取的信息
         with open('Medicine.txt', 'a', encoding='utf-8') as f:
-            f.write(content + '\n')
-            f.writelines(result)
-            f.writelines('\n\n')
-        f.close()
+            f.write(content + '\n') # 写入关键词，并换行
+            f.writelines(result)    # 写入爬取的结果
+            f.writelines('\n\n')    # 换行
+        f.close()   # 关闭文档
 
+     # 创建爬取图片的函数
     def medicine_img(content):
-        last_dir = "E:/Python/Medicine/IMG/"
-        dir = "E:/Python/Medicine/IMG/" + content
-        if os.path.exists(last_dir):
-            if os.path.exists(dir):
+        last_dir = "E:/Python/Medicine/IMG/"    # 创建IMG文件夹
+        dir = "E:/Python/Medicine/IMG/" + content   # 在IMG文件夹下，创建以关键词content命名的文件夹，用于保存爬取的图片
+        if os.path.exists(last_dir):    # 判断IMG文件夹是否存在
+            if os.path.exists(dir):     # 若IMG文件夹存在，判断content文件夹是否存在，若存在，输出提示
                 print("文件夹已经存在")
-            else:
+            else:                       # 若不存在，创建content文件夹，并输出提示
                 os.mkdir(dir)
                 print(dir + "已经创建成功")
-        else:
-            os.mkdir(last_dir)
-            if os.path.exists(dir):
+        else:                           
+            os.mkdir(last_dir)          # 若IMG文件夹不存在，创建IMG文件夹
+            if os.path.exists(dir):     # 判断content文件夹是否存在，若存在，输出提示
                 print("文件夹已经存在")
-            else:
+            else:                       # 若不存在，创建content文件夹，并输出提示
                 os.mkdir(dir)
                 print(dir + "已经创建成功")
-        keyword1 = quote(content, encoding="utf-8")
+        keyword1 = quote(content, encoding="utf-8") # 将关键词content传入keyword1，URL编码为 utf-8
+        '''
+            拆分百度图片网址
+            前半段"http://image.baidu.com/search/index?tn=baiduimage&ps=1&ct=201326592&lm=-1&cl=2&nc=1&ie=utf-8&word="
+            是，利用百度图片搜索时的通用地址， keyword1是quote函数传入的关键词content
+        '''q
         url = "http://image.baidu.com/search/index?tn=baiduimage&ps=1&ct=201326592&lm=-1&cl=2&nc=1&ie=utf-8&word=" + keyword1
         req = urllib.request.Request(url, headers=headers)
         f = urllib.request.urlopen(req).read().decode("utf-8")
